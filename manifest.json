@@ -1,0 +1,57 @@
+{
+	"manifest_version": 2,
+	"name": "QueryTodo",
+	"version": "1.0.0",
+	"description": "用于网页测试使用，是搜素Query查询，检查页面是否出对应的VR内容，并将VR内容用绿框标记并移动屏幕中间。 - zhenwentao@jayzhen-inc.com",
+	"icons":
+	{
+		"16": "img/favicon-16.png",
+		"48": "img/favicon-48.png",
+		"128": "img/favicon-128.png"
+	},
+	"background":
+	{
+		// 2种指定方式，如果指定JS，那么会自动生成一个背景页
+		"page": "background.html"
+		//"scripts": ["js/background.js"]
+	},
+	"browser_action": 
+	{
+		"default_icon": {
+			"16": "img/favicon-16.png",
+			"48": "img/favicon-48.png",
+			"128": "img/favicon-128.png"
+		},
+		"default_title": "QTodo",
+		"default_popup": "popup.html"
+	},
+	// 需要直接注入页面的JS
+	"content_scripts": 
+	[
+		{
+			//"matches": ["http://*/*", "https://*/*"],
+			// "<all_urls>" 表示匹配所有地址
+			"matches": ["http://sl.m.jayzhen.com/*"],
+			// 多个JS按顺序注入
+			"js": ["js/jquery-1.8.3.js", "js/content-script.js"],
+			// JS的注入可以随便一点，但是CSS的注意就要千万小心了，因为一不小心就可能影响全局样式
+			"css": ["css/custom.css"],
+			// 代码注入的时间，可选值： "document_start", "document_end", or "document_idle"，最后一个表示页面空闲时，默认document_idle
+			"run_at": "document_start"
+		}
+	],
+	"permissions":
+	[
+		"contextMenus", 			// 右键菜单
+		"tabs", 					// 标签
+		"notifications", 			// 通知
+		"webRequest", 				// web请求
+		"webRequestBlocking", 		// 阻塞式web请求
+		"storage", 					// 插件本地存储
+		"http://*/*", 				// 可以通过executeScript或者insertCSS访问的网站
+		"https://*/*" 				// 可以通过executeScript或者insertCSS访问的网站
+	],
+	"web_accessible_resources": ["js/inject.js"],
+	"homepage_url": "https://www.jayzhen.com",
+	"default_locale": "zh_CN"
+}
